@@ -22,7 +22,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String COLUMN_ID = "_id";
     private static final String COLUMN_DESCRIPTION = "description";
     private static final String COLUMN_NAME = "name";
-    private static final String COLUMN_SECONDS = "seconds";
+
 
 
     public DBHelper(Context context) {
@@ -32,15 +32,11 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String createTableSql = "CREATE TABLE " + TABLE_TASK
-                +  "(" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + COLUMN_NAME + " TEXT," + COLUMN_DESCRIPTION + " TEXT,"+ COLUMN_SECONDS + " INTEGER )";
+                +  "(" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + COLUMN_NAME + " TEXT," + COLUMN_DESCRIPTION + " TEXT )";
         db.execSQL(createTableSql);
         Log.i("info" ,"created tables");
 
-        ContentValues values = new ContentValues();
-        values.put(COLUMN_NAME, "Buy milk");
-        values.put(COLUMN_DESCRIPTION, "Low fat");
-        values.put(COLUMN_SECONDS, 5);
-        db.insert(TABLE_TASK, null, values);
+
 
     }
 
@@ -54,22 +50,21 @@ public class DBHelper extends SQLiteOpenHelper {
 
     }
 
-    public long insertTask(String name, String description, int seconds) {
+    public void insertTask(String description, String date){
+
+        // Get an instance of the database for writing
         SQLiteDatabase db = this.getWritableDatabase();
+        // We use ContentValues object to store the values for
+        //  the db operation
         ContentValues values = new ContentValues();
-        values.put(COLUMN_NAME , name);
+        // Store the column name as key and the description as value
         values.put(COLUMN_DESCRIPTION, description);
-        values.put(COLUMN_SECONDS, seconds);
-
-        long result = db.insert(TABLE_TASK, null, values);
+        // Store the column name as key and the date as value
+        values.put(COLUMN_NAME, date);
+        // Insert the row into the TABLE_TASK
+        db.insert(TABLE_TASK, null, values);
+        // Close the database connection
         db.close();
-
-        if (result == -1) {
-            Log.d("DBHelper", "Insert failed");
-        }
-
-        Log.d("SQL Insert ",""+ result); //id returned, shouldn’t be -1
-        return result;
     }
 
 
