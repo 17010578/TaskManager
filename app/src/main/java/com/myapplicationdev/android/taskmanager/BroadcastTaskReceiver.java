@@ -18,6 +18,8 @@ public class BroadcastTaskReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         NotificationManager notificationManager = (NotificationManager)context.getSystemService(context.NOTIFICATION_SERVICE);
 
+        String name = intent.getStringExtra("name");
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel("default", "Default Channel", NotificationManager.IMPORTANCE_DEFAULT);
 
@@ -31,7 +33,7 @@ public class BroadcastTaskReceiver extends BroadcastReceiver {
         // Build notification
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "default");
         builder.setContentTitle("Task Manager Reminder");
-        builder.setContentText("");
+        builder.setContentText(name);
         builder.setSmallIcon(android.R.drawable.ic_dialog_info);
         builder.setContentIntent(pIntent);
         builder.setAutoCancel(true);

@@ -17,14 +17,14 @@ public class AddActivity extends AppCompatActivity {
 
     EditText etName, etDes,etSec;
     Button btnAdd, btnCancel;
-    int reqCode = 123;
+    int reqCode = 12345;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add);
 
-        etDes = findViewById(R.id.EditTextDes);
+        etDes = findViewById(R.id.editTextDes);
         etName = findViewById(R.id.editTextName);
         etSec = findViewById(R.id.editTextSec);
         btnAdd = findViewById(R.id.buttonAdd);
@@ -41,7 +41,7 @@ public class AddActivity extends AppCompatActivity {
                     int seconds = Integer.parseInt(sec);
                     DBHelper db = new DBHelper(AddActivity.this);
                     db.getWritableDatabase();
-                    long result = db.insertTask(name,desc,seconds);
+                    long result = db.insertTask(name,desc);
 
                     Intent i = new Intent(AddActivity.this, BroadcastTaskReceiver.class);
                     i.putExtra("name", name);

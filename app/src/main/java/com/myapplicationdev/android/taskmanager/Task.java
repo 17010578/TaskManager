@@ -21,19 +21,19 @@ public class Task {
         return name;
     }
 
-    public Task(int id, String name, String description, int seconds) {
+    public int getSeconds () {
+        return seconds;
+    }
+
+    public Task(int id, String name, String description) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.seconds = seconds;
+//        this.seconds = seconds;
     }
     @Override
     public String toString() {
-        return "Task{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", seconds=" + seconds +
-                '}';
+        return  id + " " + name + "\n" + description;
+
     }
 }

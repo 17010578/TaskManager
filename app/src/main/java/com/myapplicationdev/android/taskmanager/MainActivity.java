@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
     Button btnAdd;
 
     ArrayAdapter aa;
-    ArrayList<Task> task;
+    ArrayList<Task> task = new ArrayList<Task>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,8 +28,8 @@ public class MainActivity extends AppCompatActivity {
 
         DBHelper db = new DBHelper(MainActivity.this);
 
-        aa = new ArrayAdapter<Task>(this, android.R.layout.simple_list_item_1 ,task);
         task = db.getTasks();
+        aa = new ArrayAdapter<Task>(this, android.R.layout.simple_list_item_1 ,task);
 
         if (task.size() != 0){
             lv.setAdapter(aa);
@@ -44,17 +44,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode,
-//                                    Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//
-//        if (requestCode == 12345){
-//            DBHelper db = new DBHelper(MainActivity.this);
-//            task.clear();
-//            task = db.getTasks();
-//            aa = new ArrayAdapter<Task>(this, android.R.layout.simple_list_item_1 ,task);
-//            lv.setAdapter(aa);
-//        }
-//    }
+    @Override
+   protected void onActivityResult(int requestCode, int resultCode,
+                                   Intent data) {
+       super.onActivityResult(requestCode, resultCode, data);
+
+     if (requestCode == 12345){
+           DBHelper db = new DBHelper(MainActivity.this);
+           task.clear();
+          task = db.getTasks();
+          aa = new ArrayAdapter<Task>(this, android.R.layout.simple_list_item_1 ,task);
+          lv.setAdapter(aa);
+       }
+    }
 }
