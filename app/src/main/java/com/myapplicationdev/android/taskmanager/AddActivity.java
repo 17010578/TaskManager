@@ -37,7 +37,16 @@ public class AddActivity extends AppCompatActivity {
                 String desc = etDes.getText().toString();
                 String sec = etSec.getText().toString();
 
-                if (!name.equals("") || !desc.equals("") || !sec.equals("")) {
+
+                if (name.length() == 0) {
+                    Toast.makeText(getBaseContext(), "Name cannot be empty", Toast.LENGTH_LONG).show();
+                } else if (desc.length() == 0) {
+                    Toast.makeText(getBaseContext(), "Description cannot be empty", Toast.LENGTH_LONG).show();
+                }
+                else if (sec.length() == 0){
+                    Toast.makeText(getBaseContext(), "Seconds cannot be empty", Toast.LENGTH_LONG).show();
+                }
+                else{
                     int seconds = Integer.parseInt(sec);
                     DBHelper db = new DBHelper(AddActivity.this);
                     db.getWritableDatabase();
@@ -46,27 +55,14 @@ public class AddActivity extends AppCompatActivity {
                     Intent i = new Intent(AddActivity.this, BroadcastTaskReceiver.class);
                     i.putExtra("name", name);
 
-                    if(result == -1){
-                        Toast.makeText(AddActivity.this, "Failed to add", Toast.LENGTH_LONG).show();
-                    } else {
-                        Toast.makeText(AddActivity.this, "Task: " + name + ", has been added", Toast.LENGTH_LONG).show();
-                        etName.setText("");
-                        etDes.setText("");
+                    Calendar cal = Calendar.getInstance();
+                    cal.add(Calendar.SECOND, seconds);
 
-                        setResult(RESULT_OK);
+                    PendingIntent pendingIntent = PendingIntent.getBroadcast(AddActivity.this, reqCode, i, PendingIntent.FLAG_CANCEL_CURRENT);
+                    AlarmManager am = (AlarmManager) getSystemService(Activity.ALARM_SERVICE);
+                    am.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pendingIntent);
 
-                        Calendar cal = Calendar.getInstance();
-                        cal.add(Calendar.SECOND, seconds);
-
-                        PendingIntent pendingIntent = PendingIntent.getBroadcast(AddActivity.this, reqCode, i, PendingIntent.FLAG_CANCEL_CURRENT);
-                        AlarmManager am = (AlarmManager) getSystemService(Activity.ALARM_SERVICE);
-                        am.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pendingIntent);
-
-                        finish();
-                    }
-
-                } else {
-                    Toast.makeText(AddActivity.this, "Please fill up the blanks", Toast.LENGTH_LONG).show();
+                    finish();
                 }
             }
         });
