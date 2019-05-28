@@ -4,6 +4,7 @@ public class Task {
     private int id;
     private String description;
     private String name;
+    private int seconds;
 
 
     public int getId() {
@@ -18,9 +19,10 @@ public class Task {
         return name;
     }
 
-    public Task(int id, String description, String name) {
+    public Task(int id, String name, String description, int seconds) {
         this.id = id;
-        this.description = description;
         this.name = name;
+        this.description = description;
+        this.seconds = seconds;
     }
 }
