@@ -11,8 +11,6 @@ import java.util.ArrayList;
 
 public class DBHelper extends SQLiteOpenHelper {
 
-    // Start version with 1
-    // increment by 1 whenever db schema changes.
     private static final int DATABASE_VER = 1;
 
     // Filename of the database
@@ -32,7 +30,9 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String createTableSql = "CREATE TABLE " + TABLE_TASK
-                +  "(" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + COLUMN_NAME + " TEXT," + COLUMN_DESCRIPTION + " TEXT )";
+                +  "(" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + COLUMN_NAME + " TEXT,"
+                + COLUMN_DESCRIPTION + " TEXT )";
         db.execSQL(createTableSql);
         Log.i("info" ,"created tables");
 
@@ -42,28 +42,23 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // Drop older table if existed
+
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TASK);
-        // Create table(s) again
+
         onCreate(db);
 
 
     }
 
-    public void insertTask(String description, String date){
+    public void insertTask(String name, String description){
 
-        // Get an instance of the database for writing
         SQLiteDatabase db = this.getWritableDatabase();
-        // We use ContentValues object to store the values for
-        //  the db operation
         ContentValues values = new ContentValues();
-        // Store the column name as key and the description as value
+
+        values.put(COLUMN_NAME, name);
         values.put(COLUMN_DESCRIPTION, description);
-        // Store the column name as key and the date as value
-        values.put(COLUMN_NAME, date);
-        // Insert the row into the TABLE_TASK
         db.insert(TABLE_TASK, null, values);
-        // Close the database connection
+
         db.close();
     }
 
@@ -71,8 +66,8 @@ public class DBHelper extends SQLiteOpenHelper {
     public ArrayList<Task> getTasks() {
         ArrayList<Task> tasks = new ArrayList<Task>();
         String selectQuery = "SELECT " + COLUMN_ID + ", "
-                + COLUMN_DESCRIPTION + ", "
-                + COLUMN_NAME
+                + COLUMN_NAME + ","
+                + COLUMN_DESCRIPTION
                 + " FROM " + TABLE_TASK;
 
         SQLiteDatabase db = this.getReadableDatabase();
