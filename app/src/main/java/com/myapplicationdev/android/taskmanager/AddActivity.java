@@ -24,7 +24,7 @@ public class AddActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add);
 
-        etDes = findViewById(R.id.editTextDes);
+        etDes = findViewById(R.id.EditTextDes);
         etName = findViewById(R.id.editTextName);
         etSec = findViewById(R.id.editTextSec);
         btnAdd = findViewById(R.id.buttonAdd);
